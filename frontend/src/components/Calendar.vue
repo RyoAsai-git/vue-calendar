@@ -1,32 +1,41 @@
 <template>
   <div>
     <h1>Calendar</h1>
-    <p>events:</p>
-    <p>{{ events }}</p>
+    <ul>
+      <li v-for="event in events" :key="event.id">
+        {{ event.name }}
+      </li>
+    </ul>
     <button type="submit" @click="fetchEvents">fetchEvents</button>
+
+    <CalendarDetails />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import CalendarDetails from './CalendarDetails.vue';
 
 export default {
   name: 'Calendar',
+  components: {
+    CalendarDetails,
+  },
   data: () => ({
-    events: []
+    events: [],
   }),
 
   methods: {
     fetchEvents() {
-      axios.
-      get('http://localhost:3000/events')
-      .then(response => {
-        this.events = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-  }
+      axios
+        .get('http://localhost:3000/events')
+        .then((response) => {
+          this.events = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>

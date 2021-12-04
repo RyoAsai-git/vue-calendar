@@ -18,10 +18,12 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'CalendarDetails',
   computed: {
+    // 状態を呼び出す
     ...mapGetters('events', ['events']),
   },
   methods: {
-    ...mapActions('events', ['fetchEvents'])
+    // 状態を変化させる
+    ...mapActions('events', ['fetchEvents']),
   },
 };
 </script>

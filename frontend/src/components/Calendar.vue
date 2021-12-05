@@ -1,23 +1,36 @@
 <template>
   <div>
-    <v-sheet height="100vh">
-      <v-calendar v-model="value" :events="events" @change="fetchEvents"> </v-calendar>
+    <v-sheet height="6vh" class="d-flex align-center">
+      <v-btn icon @click="$refs.calendar.prev()">
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-btn icon @click="$refs.calendar.next()">
+        <v-icon>mdi-chevron-right</v-icon>
+      </v-btn>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
+    </v-sheet>
+    <v-sheet height="94vh">
+      <v-calendar ref="calendar" v-model="value" :events="events" @change="fetchEvents"> </v-calendar>
     </v-sheet>
   </div>
 </template>
 
 <script>
+import { format } from 'date-fns';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Calendar',
   data: () => ({
-    value: new Date('2021/07/01'),
+    value: format(new Date(), 'yyyy/MM/dd'),
   }),
 
   computed: {
     // 状態を呼び出す
     ...mapGetters('events', ['events']),
+    title() {
+        return format(new Date(this.value), 'yyyy年 M月');
+    },
   },
   methods: {
     // 状態を変化させる

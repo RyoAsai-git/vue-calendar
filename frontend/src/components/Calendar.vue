@@ -21,8 +21,18 @@
         :month-format="(timestamp) => new Date(timestamp.date).getMonth() + 1 + ' /'"
         @click:event="showEvent"
       ></v-calendar>
-      <v-dialog :value="dialogMessage !== ''">
-        <h1>{{ dialogMessage }}</h1>
+      <v-dialog :value="event !== null">
+        <div v-if="event !== null">
+          <v-card>
+            <h1>イベント詳細</h1>
+            <p>name: {{ event.name }}</p>
+            <p>start: {{ event.start.toLocaleString() }}</p>
+            <p>end: {{ event.end.toLocaleString() }}</p>
+            <p>timed: {{ event.timed }}</p>
+            <p>description: {{ event.description }}</p>
+            <p>color: {{ event.color }}</p>
+          </v-card>
+        </div>
       </v-dialog>
     </v-sheet>
   </div>
@@ -36,25 +46,25 @@ export default {
   name: 'Calendar',
   data: () => ({
     value: format(new Date(), 'yyyy/MM/dd'),
-    dialogMessage: '',
   }),
 
   computed: {
     // 状態を呼び出す
-    ...mapGetters('events', ['events']),
+    ...mapGetters('events', ['events', 'event']),
     title() {
       return format(new Date(this.value), 'yyyy年 M月');
     },
   },
   methods: {
     // 状態を変化させる
-    ...mapActions('events', ['fetchEvents']),
+    ...mapActions('events', ['fetchEvents', 'setEvent']),
     setToday() {
       this.value = format(new Date(), 'yyyy/MM/dd');
     },
     showEvent(event) {
-      this.dialogMessage = event.name
-    }
+      this.dialogMessage = event.name;
+      this.setEvent(event);
+    },
   },
 };
 </script>

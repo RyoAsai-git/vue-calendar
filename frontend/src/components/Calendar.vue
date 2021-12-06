@@ -62,7 +62,6 @@ export default {
       this.value = format(new Date(), 'yyyy/MM/dd');
     },
     showEvent(event) {
-      this.dialogMessage = event.name;
       this.setEvent(event);
     },
   },

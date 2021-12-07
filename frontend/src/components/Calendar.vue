@@ -22,19 +22,18 @@
         @click:event="showEvent"
       ></v-calendar>
     </v-sheet>
-    <v-dialog :value="event !== null" width="600">
+    <v-dialog :value="event !== null" @click:outside="closeDialog" width="600">
       <div v-if="event !== null">
         <v-card class="pb-12">
           <v-card-actions class="d-flex justify-end pa-2">
-            <v-btn icon>
-              <v-icon size="20px" :color="event.color || 'blue'">mdi-square</v-icon>
+            <v-btn icon @click="closeDialog">
               <v-icon size="20px">mdi-close</v-icon>
             </v-btn>
           </v-card-actions>
           <v-card-title>
             <v-row>
               <v-col cols="2" class="d-flex justify-center align-center">
-                <v-icon size="20px">mdi-square</v-icon>
+                <v-icon size="20px" :color="event.color || 'blue'">mdi-square</v-icon>
               </v-col>
               <v-col class="d-flex align-center">
                 {{ event.name }}
@@ -87,6 +86,9 @@ export default {
     },
     showEvent({ event }) {
       this.setEvent(event);
+    },
+    closeDialog() {
+      this.setEvent(null);
     },
   },
 };

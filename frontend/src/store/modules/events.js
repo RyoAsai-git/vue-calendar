@@ -26,6 +26,7 @@ const getters = {
 
 const mutations = {
     setEvents: (state, events) => (state.events = events),
+    appendEvent: (state, event) => (state.events = {...state.events, event}),
     setEvent: (state, event) => (state.event = event),
     setEditMode: (state, bool) => (state.isEditMode = bool),
 };
@@ -36,6 +37,10 @@ const actions = {
     }) {
         const response = await axios.get(`${apiUrl}/events`);
         commit('setEvents', response.data);
+    },
+    async createEvent({ commit }, event) {
+        const response = await axios.post(`${apiUrl}/events`, event);
+        commit('appendEvent', response.data);
     },
     setEvent({
         commit

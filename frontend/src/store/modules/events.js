@@ -26,7 +26,7 @@ const getters = {
 
 const mutations = {
     setEvents: (state, events) => (state.events = events),
-    appendEvent: (state, event) => (state.events = {...state.events, event}),
+    appendEvent: (state, event) => (state.events = [...state.events, event]),
     setEvent: (state, event) => (state.event = event),
     setEditMode: (state, bool) => (state.isEditMode = bool),
 };

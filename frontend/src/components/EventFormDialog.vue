@@ -13,9 +13,7 @@
         <DateForm v-model="startDate" />
       </DialogSection>
     </v-card-text>
-    <v-card-actions class="d-flex justify-end">
-      <v-btn @click="submit">保存</v-btn> </v-card-actions
-    >Ï
+    <v-card-actions class="d-flex justify-end"> <v-btn @click="submit">保存</v-btn> </v-card-actions>Ï
   </v-card>
 </template>
 
@@ -23,6 +21,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import DialogSection from './DialogSection';
 import DateForm from './DateForm';
+import { format } from 'date-fns';
 
 export default {
   name: 'EventFormDialog',
@@ -36,6 +35,9 @@ export default {
   }),
   computed: {
     ...mapGetters('events', ['event']),
+  },
+  created() {
+    this.startDate = format(this.event.start, 'yyyy/MM/dd');
   },
   methods: {
     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),

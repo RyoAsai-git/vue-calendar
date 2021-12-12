@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 const apiUrl = 'http://localhost:3000';
 
@@ -19,7 +20,9 @@ const getters = {
     event: state => state.event ? {
         ...state.event,
         start: new Date(state.event.start),
-        end: new Date(state.event.end)
+        end: new Date(state.event.end),
+        startDate: format(new Date(state.event.start), 'yyyy/MM/dd'),
+        endDate: format(new Date(state.event.end), 'yyyy/MM/dd'),
     } : null,
     isEditMode: state => state.isEditMode,
 };

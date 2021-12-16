@@ -11,9 +11,14 @@
       </DialogSection>
       <DialogSection icon="mdi-clock-outline">
         <DateForm v-model="startDate" />
-        <TimeForm v-model="startTime" />
+        <div v-show="!allDay">
+          <TimeForm v-model="startTime" />
+        </div>
         <DateForm v-model="endDate" />
-        <TimeForm v-model="endTime" />
+        <div v-show="!allDay">
+          <TimeForm v-model="endTime" />
+        </div>
+        <CheckBox v-model="allDay" label="終日" />
       </DialogSection>
       <DialogSection icon="mdi-card-text-outline">
         <TextForm v-model="description" />
@@ -33,6 +38,7 @@ import DateForm from './DateForm';
 import TimeForm from './TimeForm';
 import TextForm from './TextForm';
 import ColorForm from './ColorForm';
+import CheckBox from './CheckBox';
 
 export default {
   name: 'EventFormDialog',
@@ -42,6 +48,7 @@ export default {
     TimeForm,
     TextForm,
     ColorForm,
+    CheckBox,
   },
   data: () => ({
     name: '',
@@ -51,6 +58,7 @@ export default {
     endTime: null,
     description: '',
     color: '',
+    allDay: false,
   }),
   computed: {
     ...mapGetters('events', ['event']),
@@ -61,6 +69,7 @@ export default {
     this.endDate = this.event.endDate;
     this.endTime = this.event.endTime;
     this.color = this.event.color;
+    this.allDay = !this.event.timed;
   },
   methods: {
     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),
@@ -75,6 +84,7 @@ export default {
         end: `${this.endDate} ${this.endTime || ''}`,
         description: this.description,
         color: this.color,
+        timed: !this.allDay,
       };
       this.createEvent(params);
       this.closeDialog();

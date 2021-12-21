@@ -39,9 +39,12 @@ import TimeForm from './TimeForm';
 import TextForm from './TextForm';
 import ColorForm from './ColorForm';
 import CheckBox from './CheckBox';
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   name: 'EventFormDialog',
+  mixins: [validationMixin],
   components: {
     DialogSection,
     DateForm,
@@ -60,6 +63,11 @@ export default {
     color: '',
     allDay: false,
   }),
+  validations: {
+    name: { required },
+    startDate: { required },
+    endDate: { required },
+  },
   computed: {
     ...mapGetters('events', ['event']),
   },

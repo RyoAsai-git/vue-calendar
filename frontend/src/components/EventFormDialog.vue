@@ -41,6 +41,7 @@ import ColorForm from './ColorForm';
 import CheckBox from './CheckBox';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
+import { isGreaterEndThanStart } from '../functions/datetime';
 
 export default {
   name: 'EventFormDialog',
@@ -70,8 +71,11 @@ export default {
   },
   computed: {
     ...mapGetters('events', ['event']),
+    isInvalidDatetime() {
+      return !isGreaterEndThanStart(this.startDate, this.startTime, this.endDate, this.endTime, this.allDay);
+    },
     isInvalid() {
-      return this.$v.$invalid;
+      return this.$v.$invalid || this.isInvalidDatetime;
     },
   },
   created() {

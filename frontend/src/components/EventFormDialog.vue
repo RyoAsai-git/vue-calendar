@@ -14,11 +14,14 @@
         <div v-show="!allDay">
           <TimeForm v-model="startTime" />
         </div>
-        <DateForm v-model="endDate" />
+        <span class="px-2">–</span>
+        <DateForm v-model="endDate" :isError="isInvalidDatetime" />
         <div v-show="!allDay">
-          <TimeForm v-model="endTime" />
+          <TimeForm v-model="endTime" :isError="isInvalidDatetime" />
         </div>
-        <CheckBox v-model="allDay" label="終日" />
+      </DialogSection>
+      <DialogSection>
+        <CheckBox v-model="allDay" label="終日" class="ma-0 pa-0" />
       </DialogSection>
       <DialogSection icon="mdi-card-text-outline">
         <TextForm v-model="description" />
@@ -27,7 +30,7 @@
         <ColorForm v-model="color" />
       </DialogSection>
     </v-card-text>
-    <v-card-actions class="d-flex justify-end"> <v-btn @click="submit">保存</v-btn> </v-card-actions>Ï
+    <v-card-actions class="d-flex justify-end"> <v-btn :disabled="isInvalid" @click="submit">保存</v-btn> </v-card-actions>Ï
   </v-card>
 </template>
 
@@ -39,9 +42,13 @@ import TimeForm from './TimeForm';
 import TextForm from './TextForm';
 import ColorForm from './ColorForm';
 import CheckBox from './CheckBox';
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
+import { isGreaterEndThanStart } from '../functions/datetime';
 
 export default {
   name: 'EventFormDialog',
+  mixins: [validationMixin],
   components: {
     DialogSection,
     DateForm,
@@ -60,8 +67,19 @@ export default {
     color: '',
     allDay: false,
   }),
+  validations: {
+    name: { required },
+    startDate: { required },
+    endDate: { required },
+  },
   computed: {
     ...mapGetters('events', ['event']),
+    isInvalidDatetime() {
+      return !isGreaterEndThanStart(this.startDate, this.startTime, this.endDate, this.endTime, this.allDay);
+    },
+    isInvalid() {
+      return this.$v.$invalid || this.isInvalidDatetime;
+    },
   },
   created() {
     this.startDate = this.event.startDate;
@@ -78,6 +96,9 @@ export default {
       this.setEvent(null);
     },
     submit() {
+      if (this.isInvalid) {
+        return;
+      }
       const params = {
         name: this.name,
         start: `${this.startDate} ${this.startTime || ''}`,

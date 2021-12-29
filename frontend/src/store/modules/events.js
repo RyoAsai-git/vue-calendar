@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { serializeEvent } from '../../functions/serializers';
+import {
+    serializeEvent
+} from '../../functions/serializers';
 
 const apiUrl = 'http://localhost:3000';
 
@@ -19,6 +21,8 @@ const mutations = {
     setEvents: (state, events) => (state.events = events),
     appendEvent: (state, event) => (state.events = [...state.events, event]),
     setEvent: (state, event) => (state.event = event),
+    removeEvent: (state, event) => (state.events = state.events.filter(e => e.id !== event.id)),
+    resetEvent: state => (state.event = null),
     setEditMode: (state, bool) => (state.isEditMode = bool),
 };
 
@@ -29,16 +33,27 @@ const actions = {
         const response = await axios.get(`${apiUrl}/events`);
         commit('setEvents', response.data);
     },
-    async createEvent({ commit }, event) {
+    async createEvent({
+        commit
+    }, event) {
         const response = await axios.post(`${apiUrl}/events`, event);
         commit('appendEvent', response.data);
+    },
+    async deleteEvent({
+        commit
+    }, id) {
+        const response = await axios.delete(`${apiUrl}/events/${id}`);
+        commit('removeEvent', response.data);
+        commit('resetEvent');
     },
     setEvent({
         commit
     }, event) {
         commit('setEvent', event);
     },
-    setEditMode({ commit }, bool) {
+    setEditMode({
+        commit
+    }, bool) {
         commit('setEditMode', bool)
     },
 };

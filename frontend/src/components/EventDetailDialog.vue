@@ -1,6 +1,9 @@
 <template>
   <v-card class="pb-12">
     <v-card-actions class="d-flex justify-end pa-2">
+      <v-btn icon>
+        <v-icon size="20px">mdi-pencil-outline</v-icon>
+      </v-btn>
       <v-btn icon @click="del">
         <v-icon size="20px">mdi-trash-can-outline</v-icon>
       </v-btn>

@@ -82,10 +82,12 @@ export default {
     },
   },
   created() {
+    this.name = this.event.name;
     this.startDate = this.event.startDate;
     this.startTime = this.event.startTime;
     this.endDate = this.event.endDate;
     this.endTime = this.event.endTime;
+    this.description = this.event.description;
     this.color = this.event.color;
     this.allDay = !this.event.timed;
   },

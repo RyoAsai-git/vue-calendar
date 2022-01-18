@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),
+     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
     closeDialog() {
       this.setEditMode(false);
       this.setEvent(null);
@@ -102,6 +103,7 @@ export default {
         return;
       }
       const params = {
+        ...this.event,
         name: this.name,
         start: `${this.startDate} ${this.startTime || ''}`,
         end: `${this.endDate} ${this.endTime || ''}`,
@@ -110,6 +112,11 @@ export default {
         timed: !this.allDay,
       };
       this.createEvent(params);
+        if (params.id) {
+          this.updateEvent(params);
+        } else {
+          this.createEvent(params);
+        }
       this.closeDialog();
     },
   },

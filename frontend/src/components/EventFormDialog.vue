@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),
-     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
+    ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
     closeDialog() {
       this.setEditMode(false);
       this.setEvent(null);
@@ -112,11 +112,11 @@ export default {
         timed: !this.allDay,
       };
       this.createEvent(params);
-        if (params.id) {
-          this.updateEvent(params);
-        } else {
-          this.createEvent(params);
-        }
+      if (params.id) {
+        this.updateEvent(params);
+      } else {
+        this.createEvent(params);
+      }
       this.closeDialog();
     },
   },

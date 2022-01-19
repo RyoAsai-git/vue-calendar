@@ -1,6 +1,10 @@
 <template>
   <v-card class="pb-12">
     <v-card-actions class="d-flex justify-end pa-2">
+      <v-btn @click="cancel">キャンセル</v-btn>
+      <v-btn icon @click="edit">
+        <v-icon size="20px">mdi-pencil-outline</v-icon>
+      </v-btn>
       <v-btn icon @click="del">
         <v-icon size="20px">mdi-trash-can-outline</v-icon>
       </v-btn>
@@ -39,12 +43,21 @@ export default {
     ...mapGetters('events', ['event']),
   },
   methods: {
-    ...mapActions('events', ['setEvent', 'deleteEvent']),
+    ...mapActions('events', ['setEvent', 'deleteEvent', 'setEditMode']),
     closeDialog() {
       this.setEvent(null);
     },
     del() {
       this.deleteEvent(this.event.id);
+    },
+    edit() {
+      this.setEditMode(true);
+    },
+    cancel() {
+      this.setEditMode(false);
+      if (!this.event.id) {
+        this.setEvent(null);
+      }
     },
   },
 };

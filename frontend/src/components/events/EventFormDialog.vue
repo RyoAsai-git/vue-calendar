@@ -36,15 +36,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import DialogSection from './DialogSection';
-import DateForm from './DateForm';
-import TimeForm from './TimeForm';
-import TextForm from './TextForm';
-import ColorForm from './ColorForm';
-import CheckBox from './CheckBox';
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
-import { isGreaterEndThanStart } from '../functions/datetime';
+import DialogSection from '../layouts/DialogSection';
+import DateForm from '../forms/DateForm';
+import TimeForm from '../forms/TimeForm';
+import TextForm from '../forms/TextForm';
+import ColorForm from '../forms/ColorForm';
+import CheckBox from '../forms/CheckBox';
+import { isGreaterEndThanStart } from '../../functions/datetime';
 
 export default {
   name: 'EventFormDialog',
